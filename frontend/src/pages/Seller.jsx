@@ -106,6 +106,12 @@ export default function Seller() {
     e.preventDefault();
     if (!editModal) return;
 
+    // ❌ safety: sold artwork edit not allowed
+    if (editModal.is_sold) {
+      showMessage(setEditStatus, 'This artwork is SOLD. You cannot edit it.', 'error');
+      return;
+    }
+
     const form = e.target;
     const name = form.editName.value.trim();
 
@@ -149,7 +155,13 @@ export default function Seller() {
     }
   };
 
-  const handleDelete = async (id, name) => {
+  const handleDelete = async (id, name, isSold) => {
+    // ❌ safety: sold artwork delete not allowed
+    if (isSold) {
+      showMessage(setListStatus, 'This artwork is SOLD. You cannot delete it.', 'error');
+      return;
+    }
+
     if (!window.confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) return;
 
     try {
@@ -168,7 +180,14 @@ export default function Seller() {
     }
   };
 
-  const openEdit = (artwork) => setEditModal(artwork);
+  const openEdit = (artwork) => {
+    if (artwork.is_sold) {
+      showMessage(setListStatus, 'This artwork is SOLD. You cannot edit it.', 'error');
+      return;
+    }
+    setEditModal(artwork);
+  };
+
   const closeEdit = () => setEditModal(null);
 
   const selectOptions = {
@@ -295,8 +314,28 @@ export default function Seller() {
                     alt={artwork.name}
                     className="artwork-image"
                   />
+
                   <div className="artwork-details">
-                    <div className="artwork-name">{artwork.name}</div>
+                    <div className="artwork-name">
+                      {artwork.name}
+
+                      {/* ✅ SOLD badge */}
+                      {artwork.is_sold && (
+                        <span
+                          style={{
+                            marginLeft: '10px',
+                            padding: '4px 10px',
+                            borderRadius: '999px',
+                            fontSize: '12px',
+                            fontWeight: '700',
+                            background: '#ff4d4f',
+                            color: 'white',
+                          }}
+                        >
+                          SOLD
+                        </span>
+                      )}
+                    </div>
 
                     {artwork.artist && <div className="artwork-info">🎨 {artwork.artist}</div>}
                     {artwork.artwork_type && (
@@ -309,17 +348,33 @@ export default function Seller() {
                     )}
 
                     <div className="artwork-actions">
-                      <button type="button" className="btn-secondary btn-small" onClick={() => openEdit(artwork)}>
+                      <button
+                        type="button"
+                        className="btn-secondary btn-small"
+                        onClick={() => openEdit(artwork)}
+                        disabled={artwork.is_sold}
+                        title={artwork.is_sold ? 'Sold artworks cannot be edited' : 'Edit'}
+                      >
                         Edit
                       </button>
+
                       <button
                         type="button"
                         className="btn-danger btn-small"
-                        onClick={() => handleDelete(artwork.id, artwork.name)}
+                        onClick={() => handleDelete(artwork.id, artwork.name, artwork.is_sold)}
+                        disabled={artwork.is_sold}
+                        title={artwork.is_sold ? 'Sold artworks cannot be deleted' : 'Delete'}
                       >
                         Delete
                       </button>
                     </div>
+
+                    {/* ✅ Sold message */}
+                    {artwork.is_sold && (
+                      <div style={{ marginTop: '8px', fontSize: '13px', fontWeight: '600', color: '#ff4d4f' }}>
+                        ✅ This artwork has been sold
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

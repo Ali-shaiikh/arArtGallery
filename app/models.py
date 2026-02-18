@@ -20,6 +20,10 @@ class Artwork(db.Model):
     glb_data = db.Column(db.LargeBinary, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     filename = db.Column(db.String(200), nullable=False)
+
+    is_sold = db.Column(db.Boolean, default=False)
+
+
    
 
 

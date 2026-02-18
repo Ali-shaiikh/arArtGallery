@@ -216,7 +216,7 @@ def get_artwork_api(artwork_id):
 
 @artworks_bp.route("/artworks", methods=["GET"])
 def list_artworks():
-    artworks = Artwork.query.order_by(Artwork.created_at.desc()).all()
+    artworks = Artwork.query.filter(Artwork.is_sold == 0).order_by(Artwork.created_at.desc()).all()
     data = []
     for a in artworks:
         data.append({
@@ -231,6 +231,9 @@ def list_artworks():
             "medium": a.medium,
             "style": a.style,
             "created_at": a.created_at.isoformat() if a.created_at else None,
+
+            "is_sold": a.is_sold,
+
         })
     return jsonify(data)
     
@@ -259,6 +262,9 @@ def seller_artworks():
         "medium": a.medium,
         "style": a.style,
         "created_at": a.created_at.isoformat() if a.created_at else None,
+
+        "is_sold": a.is_sold,
+
     } for a in artworks])
 
 

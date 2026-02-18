@@ -3,6 +3,7 @@ from .config import Config
 from .extensions import db, cors
 
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -38,11 +39,16 @@ def create_app():
     from .auth import auth_bp
     from .artworks import artworks_bp
     from .admin import admin_bp
+    from .payments import payments_bp
+
 
     app.register_blueprint(spa_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(artworks_bp)
     app.register_blueprint(admin_bp)
+    app.register_blueprint(payments_bp)
+
+
 
     # create tables
     with app.app_context():

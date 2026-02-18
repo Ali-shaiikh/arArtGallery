@@ -7,5 +7,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "artwork.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
+    RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
     # Keep for SPA paths
     BASEDIR = basedir
