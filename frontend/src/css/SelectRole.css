@@ -1,7 +1,31 @@
+.select-role-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.select-role-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.select-role-bg > * {
+  width: 100%;
+  height: 100%;
+}
+
 .select-role-container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 64px 32px;
+}
+
+.select-role-content {
+  position: relative;
+  z-index: 1;
 }
 
 .select-role .topbar {
@@ -20,6 +44,12 @@
   margin-bottom: 32px;
   flex-wrap: wrap;
   gap: 16px;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .brand {
@@ -44,16 +74,34 @@
   color: var(--gold);
 }
 
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: var(--shadow);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+}
+
 .select-role-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 60px;
   text-align: center;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow);
   width: 85%;
   margin: 0 auto;
   animation: fadeUp 0.5s ease both;
+  backdrop-filter: blur(6px);
+  background: color-mix(in srgb, var(--card) 86%, transparent);
 }
 
 .select-role-card h2 {
@@ -65,86 +113,97 @@
   text-align: center;
 }
 
-.roles {
+.select-role-flipping-cards {
+  margin-top: 36px;
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin-top: 40px;
+  gap: 36px;
   flex-wrap: wrap;
 }
 
-.role {
-  position: relative;
-  overflow: hidden;
+.select-role-flip-card {
+  background-color: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.flipping-card-face {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 16px;
+  background: var(--card) !important;
+  color: var(--text) !important;
+}
+
+.flipping-card-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
   border: 1px solid var(--border);
-  border-radius: 18px;
-  background: #fff;
-  padding: 48px 36px;
+}
+
+.flipping-card-text {
+  padding: 12px 4px 0;
   text-align: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.06);
-  flex: 1 1 400px;
-  max-width: 500px;
-  min-height: 340px;
 }
 
-.role:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
-}
-
-.role h3 {
-  margin: 16px 0 10px;
+.flipping-card-text h3 {
+  margin: 12px 0 6px;
   font-family: 'Playfair Display', serif;
   font-size: 26px;
   color: var(--text);
 }
 
-.role p {
-  margin: 0 0 22px;
-  color: #555;
-  font-size: 16px;
+.flipping-card-text p {
+  margin: 0;
+  color: var(--subtle);
+  font-size: 15px;
   line-height: 1.5;
 }
 
-.role .btn {
+.flipping-card-back {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 24px;
+  text-align: center;
+  background: var(--card) !important;
+  color: var(--text) !important;
+}
+
+.flipping-card-back p {
+  margin: 0;
+  color: var(--subtle);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.flipping-card-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   background: linear-gradient(135deg, var(--gold), var(--terra));
   color: #fff;
-  padding: 14px 22px;
+  padding: 12px 20px;
   border-radius: 999px;
   text-decoration: none;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
+  margin-top: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
 }
 
-.role .btn:hover {
+.flipping-card-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-.role .icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  display: inline-grid;
-  place-items: center;
-  font-size: 40px;
-  margin-bottom: 16px;
-}
-
-.role .icon.buyer {
-  background: linear-gradient(135deg, #ffd1bd, #ffc7a6);
-  color: #7a3f2a;
-}
-
-.role .icon.seller {
-  background: linear-gradient(135deg, #ebd8ff, #f6ead1);
-  color: #5e3a73;
 }
 
 @keyframes fadeUp {
@@ -159,12 +218,9 @@
 }
 
 @media (max-width: 1000px) {
-  .roles {
+  .select-role-flipping-cards {
     flex-direction: column;
     align-items: center;
-  }
-  .role {
-    width: 90%;
   }
 }
 
@@ -182,28 +238,8 @@
   .select-role-card h2 {
     font-size: 32px;
   }
-  .roles {
+  .select-role-flipping-cards {
     gap: 20px;
     margin-top: 32px;
-  }
-  .role {
-    width: 100%;
-    padding: 24px 16px;
-    min-height: auto;
-  }
-  .role h3 {
-    font-size: 22px;
-  }
-  .role .btn {
-    padding: 12px 20px;
-    font-size: 15px;
-    width: 100%;
-    justify-content: center;
-    box-sizing: border-box;
-  }
-  .role .icon {
-    width: 60px;
-    height: 60px;
-    font-size: 30px;
   }
 }

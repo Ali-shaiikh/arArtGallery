@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect, createContext, useContext } from 'react';
+import Gallery from './pages/Gallery';
 import Start from './pages/Start';
 import SelectRole from './pages/SelectRole';
 import Buyer from './pages/Buyer';
@@ -87,7 +88,7 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Navigate to="/start" replace />} />
+        <Route path="/" element={<Gallery />} />
         <Route
           path="/start"
           element={
@@ -122,7 +123,7 @@ export default function App() {
         />
         <Route path="/ar-viewer" element={<ARViewer />} />
         <Route path="/artwork/:id" element={<ArtworkDetail />} />
-        <Route path="*" element={<Navigate to="/start" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AuthProvider>
   );
